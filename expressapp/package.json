@@ -1,0 +1,19 @@
+{
+  "name": "expressapp",
+  "version": "1.0.0",
+  "description": "Small express backend for a users model",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
+  },
+  "keywords": [],
+  "author": "Mike Zinyoni and Mani Goud",
+  "license": "ISC"
+}

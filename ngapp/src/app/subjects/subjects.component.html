@@ -1,0 +1,27 @@
+<section>
+    <div class="container-fluid bg-info py-2">
+      <div class="row">
+        <div class="col-12 d-inline-flex justify-content-end pw">
+          <a class="btn btn-secondary" [routerLink]="[ '/users' ]">
+              <i class="bx bx-arrow-back"></i> Back
+            </a>
+            <button class="btn btn-primary mx-3" (click)="save()">
+              <i class="bx bx-save"></i> Save
+            </button>
+        </div>
+      </div>
+    </div>
+</section>
+<section>
+    <div class="container py-1">
+        <h1 class="text-center">{{user?.name}} Subjects</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group mb-3" *ngFor="let subject of user.allSubjects">
+                    <label class="form-check-label w-75" for="{{subject[0]}}">{{subject[0]}}</label>
+                    <input type="checkbox" class="form-check-input" name="{{subject[0]}}" id="{{subject[0]}}" [checked]="subject[1]" (change)="changed(subject)">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

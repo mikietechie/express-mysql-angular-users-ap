@@ -1,0 +1,147 @@
+<section>
+    <div class="container-fluid py-2">
+      <div class="row">
+        <div class="col-12 d-inline-flex justify-content-end pw">
+          <button class="btn btn-secondary" (ngSubmit)="filter()"><i class="bx bx-filter"></i> Filter</button>
+          <button class="btn btn-primary mx-3" (click)="addUser()"><i class="bx bx-user-plus"></i> Add User</button>
+        </div>
+      </div>
+    </div>
+</section>
+<section class="container" *ngIf="showUsers">
+    <form class="row bg-info py-2 justify-content-around" (ngSubmit)="filter()">
+      <div class="col-md-4 col-12 d-inline-flex">
+        <label for="search-by-username">Search by username</label>
+        <input type="text" class="form-control" id="search-by-username" name="searchUsername" [(ngModel)]="searchUsername" (ngModelChange)="filter()">
+      </div>
+      <div class="col-md-4 col-12 d-inline-flex">
+        <button class="btn btn-success" type="submit"><i class="bx bx-search"></i> Search</button>
+        <button class="btn btn-secondary mx-2" type="reset"><i class="bx bx-minus"></i> Clear</button>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Subjects</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of displayUsers">
+                <th>{{user.name}}</th>
+                <th>{{user.email}}</th>
+                <th>{{user.phone}}</th>
+                <th>
+                    <a [routerLink]="[ '/subjects', user.id ]">
+                        {{user.trueSubjectsCount}}/{{user.allSubjectsCount}}
+                    </a>
+                </th>
+                <th>
+                    <button class="btn btn-outline-success mx-1" (click)="selectUser(user)">
+                        <i class="bx bx-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-danger mx-1" (click)="deleteUser(user)">
+                        <i class="bx bx-trash"></i>
+                    </button>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</section>
+<section *ngIf="!showUsers">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+
+        </div>
+    </div>
+    
+</section>
+<section id="overlay" class="fixed-top h-100 w-100 pt-5" *ngIf="showOverlay">
+    <div class="container bg-white py-3 rounded">
+        <h3 class="text-center" *ngIf="adding">Add User</h3>
+        <h3 class="text-center" *ngIf="!adding">
+            Update User #<i class="bx bxs-user-account"></i>{{id}}
+        </h3>
+        <div class="row">
+            <div class="col-md-6 col-sm-10 mx-auto">
+
+                <form *ngIf="adding" (ngSubmit)="submitAddUser()">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="new-user-name">Name</label>
+                            <input type="text" class="form-control" id="new-user-name" [(ngModel)]="name" name="name">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="new-user-email">Email</label>
+                            <input type="email" class="form-control" id="new-user-email" [value]="email" name="email">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="new-user-phone">Phone</label>
+                            <input type="tel" class="form-control" id="new-user-phone" [value]="phone" name="phone">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="new-user-subjects">Subject</label>
+                            <select name="selected-subjects" class="form-select" id="new-user-subjects" [(ngModel)]="selectedSubjects" size="6" multiple>
+                                <option value="{{sub}}" *ngFor="let sub of subjectsOffered">{{sub}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 py-1 d-inline-flex justify-content-center">
+                        <button type="submit" class="btn btn-success mx-1">
+                            <i class="bx bx-send"></i>
+                            Add
+                        </button>
+                        <button class="btn btn-warning mx-1" type="reset">
+                            <i class="bx bx-minus"></i>
+                            Reset
+                        </button>
+                        <button class="btn btn-secondary mx-1" type="reset" (click)="toggleOverlay()">
+                            <i class="bx bx-x"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+
+                <form *ngIf="!adding" (ngSubmit)="submitUpdateUser()">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="new-user-name">Name</label>
+                            <input type="text" class="form-control" id="new-user-name" [(ngModel)]="name" name="name">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="new-user-email">Email</label>
+                            <input type="email" class="form-control" id="new-user-email" [value]="email" name="email">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="new-user-phone">Phone</label>
+                            <input type="tel" class="form-control" id="new-user-phone" [value]="phone" name="phone">
+                        </div>
+                    </div>
+                    <div class="col-md-12 py-1 d-inline-flex justify-content-center">
+                        <button type="submit" class="btn btn-success mx-1">
+                            <i class="bx bx-send"></i>
+                            Update
+                        </button>
+                        <button class="btn btn-warning mx-1" type="reset">
+                            <i class="bx bx-minus"></i>
+                            Reset
+                        </button>
+                        <button class="btn btn-secondary mx-1" type="reset" (click)="toggleOverlay()">
+                            <i class="bx bx-x"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
